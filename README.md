@@ -6,7 +6,7 @@ Implementation of MobileNet SSD in Tensorflow Object Detection API.
 ---
 ## Detection Data Location
 - **Image:**
-`./object_detection/test_image` 
+`./object_detection/test_image`  
 Please use `.jpg` image
 - **Video:**
 `./object_detection/test_video`
