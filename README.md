@@ -26,9 +26,9 @@ You can do detection both on **image** and **video**.
 ## Start Deteceion
 
 - **Image Dectection:**  
-`python ./start_image.py`
+`python ./image_start.py`
 - **Video Detection:**  
-`python ./start_video.py`  
+`python ./video_start.py`  
 If use camera, set `VIDEO_PATH = 0` in code (`start_video.py`).
 
 ---
