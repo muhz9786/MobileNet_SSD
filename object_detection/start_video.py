@@ -14,8 +14,8 @@ from io import StringIO
 from matplotlib import pyplot as plt
 from PIL import Image
 
-# This is needed 
-sys.path.append('..')
+# This is needed since the notebook is stored in the object_detection folder.
+sys.path.append("..")
 from object_detection.utils import ops as utils_ops
 
 if StrictVersion(tf.__version__) < StrictVersion('1.12.0'):
@@ -27,17 +27,30 @@ from utils import visualization_utils as vis_util
 
 
 # Select video path 
-VIDEO_PATH = "./test_video/road_0.mp4"
+VIDEO_PATH = "./test_video/road.mp4"
 # VIDEO_PATH = 0 # use camera
 
-# What model.
-MODEL_NAME = 'ssdlite_mobilenet_v2_coco_2018_05_09'
+# What model to download.
+MODEL_NAME = 'ssd_mobilenet_v2_coco_2018_03_29'
+MODEL_FILE = MODEL_NAME + '.tar.gz'
+DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
 
 # Path to frozen detection graph. This is the actual model that is used for the object detection.
 PATH_TO_FROZEN_GRAPH = MODEL_NAME + '/frozen_inference_graph.pb'
 
 # List of the strings that is used to add correct label for each box.
 PATH_TO_LABELS = os.path.join('data', 'mscoco_label_map.pbtxt')
+
+# Download model
+'''
+opener = urllib.request.URLopener()
+opener.retrieve(DOWNLOAD_BASE + MODEL_FILE, MODEL_FILE)
+tar_file = tarfile.open(MODEL_FILE)
+for file in tar_file.getmembers():
+  file_name = os.path.basename(file.name)
+  if 'frozen_inference_graph.pb' in file_name:
+    tar_file.extract(file, os.getcwd())
+'''
 
 detection_graph = tf.Graph()
 with detection_graph.as_default():
@@ -102,7 +115,7 @@ def run_inference_for_single_image(image, graph):
         output_dict['detection_masks'] = output_dict['detection_masks'][0]
   return output_dict
 
-# Read data with OpenCV
+
 vid = cv2.VideoCapture(VIDEO_PATH)
 while True:
   return_value, frame = vid.read()
@@ -117,11 +130,10 @@ while True:
   # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
   image_np_expanded = np.expand_dims(image_np, axis=0)
   # Counts runing time
-  prev_time = time.time()
+  # prev_time = time.time()
   # Actual detection.
   output_dict = run_inference_for_single_image(image_np_expanded, detection_graph)
   # Visualization of the results of a detection.
-  '''
   vis_util.visualize_boxes_and_labels_on_image_array(
       image_np,
       output_dict['detection_boxes'],
@@ -131,16 +143,17 @@ while True:
       instance_masks=output_dict.get('detection_masks'),
       use_normalized_coordinates=True,
       line_thickness=8)
+  # Opencv shows result
   '''
-  result = image_np
-  # OpenCV shows result
-  
   curr_time = time.time()
   exec_time = curr_time - prev_time
   info = "time: %.2f ms" %(1000*exec_time)
+  '''
+  result = image_np
+  '''
   cv2.putText(result, text=info, org=(50, 70), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
               fontScale=1, color=(255, 0, 0), thickness=2)
-  
+  '''
   cv2.namedWindow("result", cv2.WINDOW_AUTOSIZE)
   result = cv2.cvtColor(result, cv2.COLOR_RGB2BGR)
   cv2.imshow("result", result)

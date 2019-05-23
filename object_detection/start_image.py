@@ -1,11 +1,10 @@
 import numpy as np
 import os
-import sys
 import six.moves.urllib as urllib
+import sys
 import tarfile
 import tensorflow as tf
 import zipfile
-import time
 
 from distutils.version import StrictVersion
 from collections import defaultdict
@@ -13,8 +12,8 @@ from io import StringIO
 from matplotlib import pyplot as plt
 from PIL import Image
 
-# This is needed 
-sys.path.append('..')
+# This is needed since the notebook is stored in the object_detection folder.
+sys.path.append("..")
 from object_detection.utils import ops as utils_ops
 
 if StrictVersion(tf.__version__) < StrictVersion('1.12.0'):
@@ -61,8 +60,10 @@ def load_image_into_numpy_array(image):
   return np.array(image.getdata()).reshape(
       (im_height, im_width, 3)).astype(np.uint8)
 
-
-# If you want to test the code with your images, just add path to the images to the TEST_IMAGE.
+# For the sake of simplicity we will use only 2 images:
+# image1.jpg
+# image2.jpg
+# If you want to test the code with your images, just add path to the images to the TEST_IMAGE_PATHS.
 PATH_TO_TEST_IMAGES_DIR = 'test_images'
 TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, '{}.jpg'.format(i)) for i in range(1, 5) ]
 
@@ -122,9 +123,6 @@ for image_path in TEST_IMAGE_PATHS:
   image_np = load_image_into_numpy_array(image)
   # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
   image_np_expanded = np.expand_dims(image_np, axis=0)
-
-  prev_time = time.time()
-
   # Actual detection.
   output_dict = run_inference_for_single_image(image_np_expanded, detection_graph)
   # Visualization of the results of a detection.
@@ -137,11 +135,6 @@ for image_path in TEST_IMAGE_PATHS:
       instance_masks=output_dict.get('detection_masks'),
       use_normalized_coordinates=True,
       line_thickness=8)
-
-  curr_time = time.time()
-  exec_time = curr_time - prev_time
-  print(exec_time)
-
   plt.figure(figsize=IMAGE_SIZE)
   plt.imshow(image_np)
   plt.show()
