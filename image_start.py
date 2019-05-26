@@ -19,7 +19,7 @@ from object_detection.utils import label_map_util
 # Path of object_detection.
 OD_PATH = './object_detection'
 # Path of image dir.
-IMAGES_DIR_NAME = 'test_images'
+IMAGES_DIR_NAME = 'test_image'
 
 # Changes them base your data.
 ########################################
