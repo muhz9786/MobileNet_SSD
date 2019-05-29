@@ -102,7 +102,6 @@ with detection_graph.as_default():
             # You can comment out them if you do not need.
             curr_time = time.time()     # get end time.
             exec_time = curr_time - prev_time
-            print(exec_time)
             info = "time: %.2f ms" %(1000*exec_time)
             cv2.putText(image_np, text=info, org=(50, 70), fontFace=cv2.FONT_HERSHEY_SIMPLEX,
                         fontScale=1, color=(255, 0, 0), thickness=2)
