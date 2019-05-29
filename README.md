@@ -7,8 +7,8 @@ You can do detection both on **image** and **video**.
 ---
 ## Status
 
-- ***Date:*** 2019.05.22
-- ***Version:*** 2.0
+- ***Date:*** 2019.05.29
+- ***Version:*** 3.0
 - ***Model:*** ssd_mobilenet_v2_coco_2018_03_29
 - ***Training Status:***
     ```
