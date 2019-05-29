@@ -1,10 +1,10 @@
 #==================================================
-#    Version : 2.0
+#    Version : 3.0
 #    Author  : muhz9786
-#    Date    : 2019.05.22
+#    Date    : 2019.05.29
 #    Change  : 
-#      Solved logical problem that results 
-#      running extremely slow. 
+#      Rewrote the code that converts image into numpy array,   
+#      which results running slowly. 
 #==================================================
 
 import numpy as np
@@ -56,12 +56,6 @@ label_map = label_map_util.load_labelmap(PATH_TO_LABELS)
 categories = label_map_util.convert_label_map_to_categories(label_map, max_num_classes=NUM_CLASSES, use_display_name=True)
 category_index = label_map_util.create_category_index(categories)
 
-# load image into numpy array.
-def load_image_into_numpy_array(image):
-    (im_width, im_height) = image.size
-    return np.array(image.getdata()).reshape(
-        (im_height, im_width, 3)).astype(np.uint8)
-
 with detection_graph.as_default():
     with tf.Session(graph=detection_graph) as sess:
         # Get tensor form graph.
@@ -77,7 +71,7 @@ with detection_graph.as_default():
 
             # the array based representation of the image will be used later in order to prepare the
             # result image with boxes and labels on it.
-            image_np = load_image_into_numpy_array(image)
+            image_np = np.array(image, dtype=np.uint8)
             # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
             image_np_expanded = np.expand_dims(image_np, axis=0)
             # Actual detection.
