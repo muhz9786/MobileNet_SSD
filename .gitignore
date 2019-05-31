@@ -22,3 +22,4 @@ object_detection/ssdlite_mobilenet_v2_coco_2018_05_09/model.ckpt.index
 object_detection/ssdlite_mobilenet_v2_coco_2018_05_09/model.ckpt.meta
 object_detection/ssdlite_mobilenet_v2_coco_2018_05_09/pipeline.config
 object_detection/ssdlite_mobilenet_v2_coco_2018_05_09/saved_model/saved_model.pb
+test_video/road_demo.mp4

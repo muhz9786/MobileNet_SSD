@@ -40,7 +40,7 @@ VIDEO_PATH = os.path.join(VIDEO_DIR_NAME, 'road1.mp4')
 # VIDEO_PATH = 0    # use camera.              
 
 # Set optimization of OpenCV.
-# cv2.setUseOptimized(True)     # I'm not sure it is helpful.
+cv2.setUseOptimized(True)     # I'm not sure it is helpful.
 ########################################
 
 # Load a frozen model into memory.
@@ -74,16 +74,12 @@ with detection_graph.as_default():
         while True:
             return_value, frame = mv.read()
             if return_value:
-                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                image = Image.fromarray(frame)
+                image_np = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             else:
                 raise ValueError("No image!") 
 
             prev_time = time.time()     # get start time.
 
-            # the array based representation of the image will be used later in order to prepare the
-            # result image with boxes and labels on it.
-            image_np = np.array(image, dtype=np.uint8)
             # Expand dimensions since the model expects images to have shape: [1, None, None, 3]
             image_np_expanded = np.expand_dims(image_np, axis=0)
             # Actual detection.
