@@ -59,8 +59,10 @@ category_index = label_map_util.create_category_index(categories)
 
 mv = cv2.VideoCapture(VIDEO_PATH)    # open video
 
+gpu_options = tf.GPUOptions(allow_growth=True)    # allocate GPU memory based on requirement of computing.
+
 with detection_graph.as_default():
-    with tf.Session(graph=detection_graph) as sess:
+    with tf.Session(graph=detection_graph, config=tf.ConfigProto(gpu_options=gpu_options)) as sess:
         # Get tensor form graph.
         image_tensor = detection_graph.get_tensor_by_name('image_tensor:0')
         detection_boxes = detection_graph.get_tensor_by_name('detection_boxes:0')
